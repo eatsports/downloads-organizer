@@ -1,5 +1,5 @@
-import os
 import json
+import os
 import shutil
 
 DICTIONARY_NAME = 'filetype_dict.json'
@@ -32,13 +32,15 @@ def save_dictionary_to_json(dictionary):
 
 
 def get_folder_name_from_user(extension):
-    user_input = input(f"{extension} not found in database, please enter a folder in which you would like to save {extension} files\n")
+    user_input = input(
+        f"{extension} not found in database, please enter a folder in which you would like to save {extension} files\n")
     output = ''
     folders = next(os.walk('./'))[1]
     for folder in folders:
         if folder.lower() == user_input.lower():
             output = folder
     if output == '':
+        os.mkdir(user_input)
         output = user_input
     return output
 
@@ -59,15 +61,13 @@ def main():
     extension_not_found_counter = 0
     for file in unsorted_files:
         file_extension = os.path.splitext(file)[1]
-        if file_extension in filetype_folder_dict:
-            move_file(file, filetype_folder_dict[file_extension])
-        else:
+        if file_extension not in filetype_folder_dict:
             filetype_folder_dict[file_extension] = get_folder_name_from_user(file_extension)
             extension_not_found_counter += 1
+        move_file(file, filetype_folder_dict[file_extension])
     if extension_not_found_counter > 0:
         save_dictionary_to_json(filetype_folder_dict)
 
 
 if __name__ == "__main__":
     main()
-
