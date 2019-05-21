@@ -56,14 +56,16 @@ def move_file(filename, foldername):
 def main():
     unsorted_files = get_unsorted_files()
     filetype_folder_dict = get_filetype_folder_dict()
+    extension_not_found_counter = 0
     for file in unsorted_files:
         file_extension = os.path.splitext(file)[1]
         if file_extension in filetype_folder_dict:
             move_file(file, filetype_folder_dict[file_extension])
         else:
             filetype_folder_dict[file_extension] = get_folder_name_from_user(file_extension)
-            save_dictionary_to_json(filetype_folder_dict)
-
+            extension_not_found_counter += 1
+    if extension_not_found_counter > 0:
+        save_dictionary_to_json(filetype_folder_dict)
 
 
 if __name__ == "__main__":
