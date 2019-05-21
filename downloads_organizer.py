@@ -62,7 +62,8 @@ def main():
             move_file(file, filetype_folder_dict[file_extension])
         else:
             filetype_folder_dict[file_extension] = get_folder_name_from_user(file_extension)
-    save_dictionary_to_json(filetype_folder_dict)
+            save_dictionary_to_json(filetype_folder_dict)
+
 
 
 if __name__ == "__main__":
